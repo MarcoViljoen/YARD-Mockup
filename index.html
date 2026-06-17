@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YARD | Pick Your Poison</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Permanent+Marker&family=Roboto:wght@400;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --black: #121212;
+            --dark-grey: #1f1f1f;
+            --white: #f4f4f4;
+            --pizza-red: #d90429;
+            --bollocks-gold: #ffb703;
+            --accent-font: 'Permanent Marker', cursive;
+            --header-font: 'Bebas Neue', sans-serif;
+            --body-font: 'Roboto', sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body { 
+            background-color: var(--black); 
+            color: var(--white); 
+            font-family: var(--body-font); 
+            overflow-x: hidden;
+        }
+
+        /* UTILITIES */
+        .hidden { display: none !important; }
+        .btn {
+            padding: 15px 30px;
+            font-family: var(--header-font);
+            font-size: 1.5rem;
+            text-transform: uppercase;
+            cursor: pointer;
+            border: none;
+            transition: 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        /* ENTRY SCREEN (Pathway Selector) */
+        #entry-screen {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
+                        url('https://www.yardco.co.za/wp-content/uploads/2022/08/yard-side7.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+
+        #entry-screen h1 {
+            font-family: var(--header-font);
+            font-size: 6rem;
+            line-height: 0.9;
+            margin-bottom: 10px;
+        }
+
+        #entry-screen p {
+            font-family: var(--accent-font);
+            font-size: 1.5rem;
+            color: #ccc;
+            margin-bottom: 40px;
+        }
+
+        .selector-container {
+            display: flex;
+            gap: 20px;
+            width: 90%;
+            max-width: 1000px;
+        }
+
+        .choice-card {
+            flex: 1;
+            height: 400px;
+            position: relative;
+            overflow: hidden;
+            border: 5px solid var(--white);
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            align-items: flex-end;
+            text-decoration: none;
+        }
+
+        .choice-card:hover { transform: scale(1.02); border-color: var(--bollocks-gold); }
+        .choice-card img {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            object-fit: cover;
+            z-index: -1;
+            filter: grayscale(50%) contrast(120%);
+        }
+
+        .choice-card .label {
+            background: rgba(0,0,0,0.8);
+            width: 100%;
+            padding: 20px;
+            font-family: var(--header-font);
+            font-size: 2.5rem;
+            color: white;
+        }
+
+        /* SERVICE PAGES */
+        .service-page {
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .nav-back {
+            font-family: var(--accent-font);
+            color: var(--white);
+            cursor: pointer;
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+
+        .hero-section {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .hero-section h2 {
+            font-family: var(--header-font);
+            font-size: 5rem;
+            margin-bottom: 10px;
+        }
+
+        .hero-section .tagline {
+            font-family: var(--accent-font);
+            font-size: 1.8rem;
+            color: var(--bollocks-gold);
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+            align-items: center;
+        }
+
+        .menu-preview {
+            background: var(--dark-grey);
+            padding: 30px;
+            border-left: 10px solid var(--pizza-red);
+            font-family: var(--body-font);
+        }
+
+        .menu-preview h3 {
+            font-family: var(--header-font);
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        .menu-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            border-bottom: 1px dashed #444;
+            padding-bottom: 5px;
+        }
+
+        .menu-item span:last-child { font-weight: bold; color: var(--bollocks-gold); }
+
+        .image-gallery {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .image-gallery img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            filter: contrast(110%);
+        }
+
+        .booking-section {
+            text-align: center;
+            margin-top: 80px;
+            padding: 60px;
+            background: var(--dark-grey);
+            border: 3px dashed var(--white);
+        }
+
+        .booking-section h3 {
+            font-family: var(--header-font);
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        /* CUSTOM COLORS PER PAGE */
+        .pizza-theme { border-color: var(--pizza-red) !important; }
+        .pizza-theme .tagline { color: var(--pizza-red) !important; }
+        .pizza-theme .menu-preview { border-color: var(--pizza-red) !important; }
+
+        .bollocks-theme { border-color: var(--bollocks-gold) !important; }
+        .bollocks-theme .tagline { color: var(--bollocks-gold) !important; }
+        .bollocks-theme .menu-preview { border-color: var(--bollocks-gold) !important; }
+
+        @media (max-width: 768px) {
+            .selector-container { flex-direction: column; }
+            .content-grid { grid-template-columns: 1fr; }
+            #entry-screen h1 { font-size: 3.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- PATTERN 2: PATHWAY SELECTOR (Entry) -->
+    <section id="entry-screen">
+        <h1>WELCOME TO THE YARD</h1>
+        <p>Pick your poison. We don't care which, as long as you're paying.</p>
+        
+        <div class="selector-container">
+            <div class="choice-card" onclick="showPage('pizza')">
+                <img src="https://www.yardco.co.za/wp-content/uploads/2022/08/gal13.jpg" alt="Pizza">
+                <div class="label">PIZZA WAREHOUSE</div>
+            </div>
+            <div class="choice-card" onclick="showPage('bollocks')">
+                <img src="https://www.yardco.co.za/wp-content/uploads/2022/08/gal7.jpg" alt="Bollocks">
+                <div class="label">THE DOG'S BOLLOCKS</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SERVICE PAGE: PIZZA WAREHOUSE -->
+    <section id="pizza-page" class="service-page pizza-theme hidden">
+        <div class="nav-back" onclick="showPage('entry')">← Get me out of here</div>
+        
+        <div class="hero-section">
+            <h2>PIZZA WAREHOUSE</h2>
+            <div class="tagline">Flour, Fire, No Bullshit.</div>
+        </div>
+
+        <div class="content-grid">
+            <div class="menu-preview">
+                <h3>THE SIGNATURES</h3>
+                <div class="menu-item"><span>Capricciosa</span><span>R190 - R360</span></div>
+                <div class="menu-item"><span>Asian Marinated Chicken</span><span>R190 - R360</span></div>
+                <div class="menu-item"><span>Meat Supreme</span><span>R245 - R460</span></div>
+                <div class="menu-item"><span>The Garden (V)</span><span>R190 - R360</span></div>
+                <p style="margin-top: 20px; font-family: var(--accent-font);">*Don't ask for pineapple unless you want a lecture.</p>
+            </div>
+            <div class="image-gallery">
+                <img src="https://www.yardco.co.za/wp-content/uploads/2022/08/gal14.jpg">
+                <img src="https://www.yardco.co.za/wp-content/uploads/2022/08/yard-side2.jpg">
+                <img src="https://www.yardco.co.za/wp-content/uploads/2022/08/gal7-320x202.jpg">
+                <img src="https://www.yardco.co.za/wp-content/uploads/2022/08/gal13.jpg">
+            </div>
+        </div>
+
+        <div class="booking-section">
+            <h3>CLAIM YOUR SPOT, BITCH</h3>
+            <p style="margin-bottom: 20px;">Write your name on the digital chalkboard.</p>
+            <button class="btn" style="background: var(--pizza-red); color: white;">BOOK A TABLE</button>
+        </div>
+    </section>
+
+    <!-- SERVICE PAGE: THE DOG'S BOLLOCKS -->
+    <section id="bollocks-page" class="service-page bollocks-theme hidden">
+        <div class="nav-back" onclick="showPage('entry')">← Back to the Yard</div>
+        
+        <div class="hero-section">
+            <h2>THE DOG'S BOLLOCKS</h2>
+            <div class="tagline">The name says it all.</div>
+        </div>
+
+        <div class="content-grid">
+            <div class="image-gallery">
+                <img src="https://lh3.googleusercontent.com/gps-cs-s/APNQkAHyBw4RDbSFCoO2ZJ2mlkgaRzTpow4EfVAM6MEKK9KPI8BYWWJx9tnBhYiXc9SoGXqndtpai5t7Wagc36dW5hxdJ_YjZBEKxccdYcV6HnkLGqtqgTnIy3dTM5j_DjKufzl4NLtHjA=s1360-w1360-h1020-rw">
+                <img src="https://lh3.googleusercontent.com/gps-cs-s/APNQkAGImvhQuspx1Tk1HoU5-fx2akdgPkFWwU1IH1tnhiLiGsVxAhze1kBEJmp4VFAAuNA0q4ocvuApL_-zP1hcIotVwzp34IeBlP6tpuLPOh-xlLRG3nPGGKH9yZY_RaTG6d3GpID3uUHELyA=s1360-w1360-h1020-rw">
+                <img src="https://www.yardco.co.za/wp-content/uploads/2022/08/yard-about1.jpg">
+                <img src="https://www.yardco.co.za/wp-content/uploads/2022/08/gal7.jpg">
+            </div>
+            <div class="menu-preview">
+                <h3>THE HEAVY HITTERS</h3>
+                <div class="menu-item"><span>Basic Bitch Burger</span><span>R220</span></div>
+                <div class="menu-item"><span>Smack My Arse Red</span><span>R180</span></div>
+                <div class="menu-item"><span>The Matt Dougal (XXL)</span><span>The Challenge</span></div>
+                <div class="menu-item"><span>Puppy's Nuts</span><span>R75</span></div>
+                <p style="margin-top: 20px; font-family: var(--accent-font);">*If you have to ask what it is, you probably can't afford it.</p>
+            </div>
+        </div>
+
+        <div class="booking-section">
+            <h3>CLAIM YOUR SPOT, BITCH</h3>
+            <p style="margin-bottom: 20px;">The man who sleeps with your wife lives here. Book now.</p>
+            <button class="btn" style="background: var(--bollocks-gold); color: black;">BOOK A TABLE</button>
+        </div>
+    </section>
+
+    <script>
+        function showPage(pageId) {
+            // Hide all sections
+            document.getElementById('entry-screen').classList.add('hidden');
+            document.getElementById('pizza-page').classList.add('hidden');
+            document.getElementById('bollocks-page').classList.add('hidden');
+
+            // Show requested section
+            if(pageId === 'entry') {
+                document.getElementById('entry-screen').classList.remove('hidden');
+            } else if(pageId === 'pizza') {
+                document.getElementById('pizza-page').classList.remove('hidden');
+            } else if(pageId === 'bollocks') {
+                document.getElementById('bollocks-page').classList.remove('hidden');
+            }
+            window.scrollTo(0,0);
+        }
+    </script>
+</body>
+</html>
